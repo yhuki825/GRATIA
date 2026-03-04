@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="GRATIAは営業代行・営業サポート・ECショップ運営を通じて、ビジネスの成長と暮らしの豊かさを支援します。">
+    <meta name="theme-color" content="#1a365d">
+    <title>GRATIA | 営業代行・サポート・ECショップ運営</title>
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS via CDN (play.min for production-like usage) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            primary: '#1a365d',
+                            accent:  '#c0a080',
+                        }
+                    },
+                    fontFamily: {
+                        sans:  ['Noto Sans JP', 'sans-serif'],
+                        serif: ['Noto Serif JP', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+    <style>
+        /* ===== Base ===== */
+        :root {
+            --brand-primary: #1a365d;
+            --brand-accent:  #c0a080;
+            --brand-bg:      #f8fafc;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            color: #1e293b;
+            background-color: var(--brand-bg);
+        }
+
+        h1, h2, h3, .serif {
+            font-family: 'Noto Serif JP', serif;
+        }
+
+        /* ===== Scroll reveal ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== Hero ===== */
+        .hero-bg {
+            background:
+                linear-gradient(rgba(26, 54, 93, 0.82), rgba(26, 54, 93, 0.82)),
+                url('https://images.unsplash.com/photo-1521791136064-7986c2923216?auto=format&fit=crop&w=1600&q=80')
+                center / cover no-repeat;
+        }
+
+        /* ===== Mobile nav drawer ===== */
+        #mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease-out;
+        }
+        #mobile-menu.open {
+            max-height: 320px;
+        }
+
+        /* ===== Service card hover ===== */
+        .service-card {
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+        .service-card:hover {
+            box-shadow: 0 12px 32px rgba(26, 54, 93, 0.1);
+            transform: translateY(-4px);
+        }
+
+        /* ===== Decorative divider ===== */
+        .divider {
+            width: 40px;
+            height: 2px;
+            background-color: var(--brand-accent);
+            margin: 0 auto;
+        }
+
+        /* ===== Focus visible outline for accessibility ===== */
+        a:focus-visible,
+        button:focus-visible {
+            outline: 2px solid var(--brand-accent);
+            outline-offset: 3px;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== Header ===== -->
+    <header class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100" role="banner">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+
+            <!-- Logo -->
+            <a href="#" class="flex flex-col leading-none" aria-label="GRATIA トップへ戻る">
+                <span class="text-2xl font-bold tracking-widest serif text-blue-900">GRATIA</span>
+                <span class="text-[9px] tracking-[0.3em] text-slate-400 uppercase font-bold mt-0.5">Sales &amp; Commerce</span>
+            </a>
+
+            <!-- Desktop nav -->
+            <nav class="hidden md:flex space-x-10 text-[11px] font-bold tracking-[0.2em]" aria-label="メインナビゲーション">
+                <a href="#services" class="text-slate-600 hover:text-blue-900 transition-colors">SERVICES</a>
+                <a href="#vision"   class="text-slate-600 hover:text-blue-900 transition-colors">VISION</a>
+                <a href="#profile"  class="text-slate-600 hover:text-blue-900 transition-colors">PROFILE</a>
+                <a href="#contact"  class="text-slate-600 hover:text-blue-900 transition-colors">CONTACT</a>
+            </nav>
+
+            <!-- Mobile menu button -->
+            <button
+                id="menu-btn"
+                class="md:hidden p-2 rounded text-blue-900 hover:bg-slate-100 transition-colors"
+                aria-label="メニューを開く"
+                aria-expanded="false"
+                aria-controls="mobile-menu"
+            >
+                <i data-lucide="menu" class="w-6 h-6" aria-hidden="true"></i>
+            </button>
+        </div>
+
+        <!-- Mobile nav drawer -->
+        <nav id="mobile-menu" class="md:hidden bg-white border-t border-slate-100" aria-label="モバイルナビゲーション">
+            <div class="flex flex-col px-6 py-4 space-y-4 text-[12px] font-bold tracking-[0.2em]">
+                <a href="#services" class="text-slate-600 hover:text-blue-900 transition-colors py-2">SERVICES</a>
+                <a href="#vision"   class="text-slate-600 hover:text-blue-900 transition-colors py-2">VISION</a>
+                <a href="#profile"  class="text-slate-600 hover:text-blue-900 transition-colors py-2">PROFILE</a>
+                <a href="#contact"  class="text-slate-600 hover:text-blue-900 transition-colors py-2">CONTACT</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ===== Hero ===== -->
+    <section class="relative min-h-screen flex items-center justify-center hero-bg text-white" aria-label="ヒーローセクション">
+        <div class="relative z-10 text-center px-4 max-w-3xl mx-auto">
+            <span class="inline-block mb-6 px-5 py-1.5 border border-white/30 text-[10px] tracking-[0.45em] font-light uppercase">
+                Professional Support
+            </span>
+            <h1 class="text-4xl md:text-6xl font-bold serif leading-tight mb-8">
+                成果への伴走、<br>日常への彩り。
+            </h1>
+            <p class="text-sm md:text-lg font-light tracking-wider mb-12 leading-loose text-white/85">
+                営業の力でビジネスを加速させ、ECの力で暮らしを豊かに。<br>
+                GRATIAは、確かな「結果」と「満足」を追求します。
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-5">
+                <a href="#services"
+                   class="px-10 py-4 bg-white text-blue-900 text-[11px] font-bold tracking-widest hover:bg-slate-100 transition-all rounded-sm shadow-xl">
+                    事業内容を見る
+                </a>
+                <a href="#contact"
+                   class="px-10 py-4 border border-white/70 text-white text-[11px] font-bold tracking-widest hover:bg-white/10 transition-all rounded-sm">
+                    お問い合わせ
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/50" aria-hidden="true">
+            <span class="text-[9px] tracking-[0.35em] uppercase">Scroll</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 animate-bounce"></i>
+        </div>
+    </section>
+
+    <!-- ===== Services ===== -->
+    <section id="services" class="py-32 px-6" aria-labelledby="services-heading">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-6 reveal">
+                <span class="text-blue-600 text-[10px] font-bold tracking-[0.45em] mb-3 block uppercase">Services</span>
+                <h2 id="services-heading" class="text-3xl font-bold serif">提供する価値</h2>
+            </div>
+            <div class="divider mb-20 reveal"></div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+
+                <!-- 営業代行 -->
+                <article class="service-card bg-white p-12 rounded border border-slate-100 shadow-sm reveal">
+                    <div class="w-12 h-12 bg-blue-50 text-blue-900 rounded-full flex items-center justify-center mb-8" aria-hidden="true">
+                        <i data-lucide="users-2" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-5 serif">営業代行</h3>
+                    <p class="text-slate-500 text-sm leading-loose">
+                        新規開拓からクロージングまで、プロフェッショナルな営業リソースを提供。企業の成長フェーズに合わせ、着実な成果を導き出します。
+                    </p>
+                </article>
+
+                <!-- 営業サポート -->
+                <article class="service-card bg-white p-12 rounded border border-slate-100 shadow-sm reveal" style="transition-delay: 150ms;">
+                    <div class="w-12 h-12 bg-blue-50 text-blue-900 rounded-full flex items-center justify-center mb-8" aria-hidden="true">
+                        <i data-lucide="line-chart" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-5 serif">営業サポート</h3>
+                    <p class="text-slate-500 text-sm leading-loose">
+                        営業戦略の立案、ツールの整備、プロセスの改善。貴社の営業チームが本来の力を発揮できるためのバックアップ体制を構築します。
+                    </p>
+                </article>
+
+                <!-- ECショップ運営 -->
+                <article class="service-card bg-white p-12 rounded border border-slate-100 shadow-sm reveal" style="transition-delay: 300ms;">
+                    <div class="w-12 h-12 bg-blue-50 text-blue-900 rounded-full flex items-center justify-center mb-8" aria-hidden="true">
+                        <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-5 serif">ECショップ運営</h3>
+                    <p class="text-slate-500 text-sm leading-loose">
+                        厳選した商品をインターネットを通じて提供。利便性だけでなく、手に取った時の喜びまでをデザインするショップ運営を行っています。
+                    </p>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Vision ===== -->
+    <section id="vision" class="py-32 bg-slate-900 text-white px-6" aria-labelledby="vision-heading">
+        <div class="max-w-4xl mx-auto text-center reveal">
+            <h2 id="vision-heading" class="text-2xl md:text-3xl font-bold serif mb-4 italic">
+                "Excellence with Gratitude"
+            </h2>
+            <div class="divider mb-14" style="background-color: var(--brand-accent);"></div>
+            <div class="space-y-8 text-slate-400 leading-loose text-base md:text-lg font-light">
+                <p>
+                    屋号の「GRATIA」は、関わるすべての人々への「感謝」を意味します。<br>
+                    ビジネスの基盤は信頼であり、信頼の基盤は誠実なコミュニケーションにあります。
+                </p>
+                <p>
+                    私たちは、単なる外部委託先としてではなく、<br class="hidden md:block">
+                    貴社の志を共にするパートナーとして、期待を超えるパフォーマンスを追求し続けます。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Profile ===== -->
+    <section id="profile" class="py-32 px-6" aria-labelledby="profile-heading">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-6 reveal">
+                <span class="text-blue-600 text-[10px] font-bold tracking-[0.45em] mb-3 block uppercase">Representative</span>
+                <h2 id="profile-heading" class="text-3xl font-bold serif">代表プロフィール</h2>
+            </div>
+            <div class="divider mb-20 reveal"></div>
+
+            <div class="flex flex-col md:flex-row items-center gap-16 reveal">
+                <div class="w-full md:w-2/5">
+                    <div class="aspect-square bg-slate-200 overflow-hidden rounded-sm shadow-md">
+                        <img
+                            src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80"
+                            alt="GRATIAオフィスの風景"
+                            class="w-full h-full object-cover grayscale opacity-70"
+                            loading="lazy"
+                        >
+                    </div>
+                </div>
+                <div class="w-full md:w-3/5">
+                    <h3 class="text-3xl font-bold serif mb-1">石塚 孝介</h3>
+                    <p class="text-slate-400 text-sm font-light tracking-widest mb-8">Kosuke Ishizuka</p>
+                    <div class="space-y-5 text-slate-500 text-sm leading-loose font-light">
+                        <p>
+                            営業現場での豊富な経験と、自社ECショップ運営で培ったマーケティングスキルを融合。現場の痛みと顧客のニーズ、その両方を深く理解した上での提案を強みとしています。
+                        </p>
+                        <p>
+                            埼玉県熊谷市を拠点に、全国のクライアント様へ伴走型のサポートを提供。「GRATIAに頼んで良かった」と言っていただける、確かな価値を提供し続けることが私の使命です。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Contact ===== -->
+    <section id="contact" class="py-32 bg-white px-6" aria-labelledby="contact-heading">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-6 reveal">
+                <span class="text-blue-600 text-[10px] font-bold tracking-[0.45em] mb-3 block uppercase">Contact</span>
+                <h2 id="contact-heading" class="text-3xl serif tracking-widest font-bold">お問い合わせ</h2>
+            </div>
+            <div class="divider mb-20 reveal"></div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 reveal">
+
+                <!-- 基本情報 -->
+                <div class="space-y-10">
+                    <div>
+                        <p class="text-blue-600 text-[10px] tracking-widest mb-2 uppercase font-bold">Entity Name</p>
+                        <p class="text-xl serif font-bold">GRATIA</p>
+                    </div>
+                    <div>
+                        <p class="text-blue-600 text-[10px] tracking-widest mb-2 uppercase font-bold">Address</p>
+                        <address class="not-italic text-base font-light leading-relaxed text-slate-700">
+                            〒360-0112<br>
+                            埼玉県熊谷市船木台2-15-9
+                        </address>
+                    </div>
+                </div>
+
+                <!-- SNS・リンク -->
+                <div class="flex flex-col justify-center space-y-6">
+                    <p class="text-blue-600 text-[10px] tracking-widest uppercase font-bold">Follow Us</p>
+                    <div class="flex space-x-6 text-slate-400">
+                        <a href="#" aria-label="LinkedIn" class="hover:text-blue-900 transition-colors">
+                            <i data-lucide="linkedin" class="w-6 h-6" aria-hidden="true"></i>
+                        </a>
+                        <a href="#" aria-label="外部リンク" class="hover:text-blue-900 transition-colors">
+                            <i data-lucide="external-link" class="w-6 h-6" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <p class="text-slate-400 text-xs leading-relaxed pt-2">
+                        お問い合わせはSNSのDM、または各種リンクよりお気軽にご連絡ください。
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Footer ===== -->
+    <footer class="py-12 bg-slate-900 text-center" role="contentinfo">
+        <a href="#" class="inline-block mb-6" aria-label="ページトップへ戻る">
+            <span class="text-lg font-bold tracking-widest serif text-white/80 hover:text-white transition-colors">GRATIA</span>
+        </a>
+        <p class="text-[10px] text-slate-500 tracking-[0.4em] uppercase">
+            &copy; GRATIA by Kosuke Ishizuka. All Rights Reserved.
+        </p>
+    </footer>
+
+    <!-- ===== Scripts ===== -->
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // ---- Mobile menu toggle ----
+        const menuBtn  = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            const isOpen = mobileMenu.classList.toggle('open');
+            menuBtn.setAttribute('aria-expanded', isOpen);
+            menuBtn.setAttribute('aria-label', isOpen ? 'メニューを閉じる' : 'メニューを開く');
+            // swap icon
+            menuBtn.querySelector('[data-lucide]').setAttribute('data-lucide', isOpen ? 'x' : 'menu');
+            lucide.createIcons();
+        });
+
+        // Close mobile menu on link click
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                menuBtn.setAttribute('aria-expanded', 'false');
+                menuBtn.setAttribute('aria-label', 'メニューを開く');
+                menuBtn.querySelector('[data-lucide]').setAttribute('data-lucide', 'menu');
+                lucide.createIcons();
+            });
+        });
+
+        // ---- Scroll reveal ----
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target); // fire once
+                }
+            });
+        }, { threshold: 0.12 });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // ---- Active nav highlight on scroll ----
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('nav a[href^="#"]');
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    navLinks.forEach(link => {
+                        const active = link.getAttribute('href') === `#${id}`;
+                        link.classList.toggle('text-blue-900', active);
+                        link.classList.toggle('text-slate-600', !active);
+                    });
+                }
+            });
+        }, { rootMargin: '-40% 0px -55% 0px' });
+
+        sections.forEach(sec => sectionObserver.observe(sec));
+    </script>
+</body>
+</html>
